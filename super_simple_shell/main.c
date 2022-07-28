@@ -8,10 +8,15 @@ int main()
 	int status;
 	size_t len = 0;
 	char *buffer = 0, *delim = " \t\n", **args;
+	ssize_t getline_status = 1;
 
-	printf("#cisfun$ ");
-	while ((getline(&buffer, &len, stdin)) != -1)
+	while (getline_status != -1)
 	{
+		printf("#cisfun$ ");
+		getline_status = getline(&buffer, &len, stdin);
+		buffer = strtok(buffer, "\n");
+		if (!buffer)
+			continue;
 		/* delimit buffer by delimiters */
 		args = split(buffer, delim);
 		/* create a child process */
@@ -26,13 +31,13 @@ int main()
 		{
 			/* wait until child process ends to continue */
 			wait(&status);
-			printf("#cisfun$ ");
 		}
 	}
 
 	/* WE SHOULD HANDLE end-of-file (Ctrl+d, etc.) AND FREE ALLOCATED MEMORY
 	 * BEFORE ENDING THE PROGRAM.
 	 * - **arg
+	 * - *buffer
 	 */
 
 	return (0);
