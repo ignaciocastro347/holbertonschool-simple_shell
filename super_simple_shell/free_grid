@@ -1,0 +1,15 @@
+#include "hmain.h"
+/**
+ * Free grid, en teoria asi no deberia de necesitar el largo de grid[i] para limpiarlo
+/*
+void free_grid(char **grid)
+{
+int i;
+
+	while(grid[i])
+	{
+		free(grid[i]);
+		i++;
+	}
+free(grid);
+}
