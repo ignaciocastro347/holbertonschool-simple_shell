@@ -12,8 +12,8 @@ char **split(char *buffer, char *delim)
 	char *dbuffer;
 	int i = -1;
 
-	if (!dest || !buffer)
-		return (-1);
+	if (!buffer)
+		return (NULL);
 	dbuffer = strdup(buffer);
 	token = strtok(dbuffer, delim);
 	while (token)

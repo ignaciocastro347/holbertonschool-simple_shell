@@ -1,36 +1,24 @@
-#define  _GNU_SOURCE
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/wait.h>
-#include <string.h>
-int split(char ***, char *, char *);
-
+#include "shell.h"
 /**
- * main - executes the command ls -l /tmp in 5 different child processes
- *
+ * main - shell
  * Return: Always 0.
  */
 int main()
 {
 	int status;
 	size_t len = 0;
-	char *buffer = 0;
-	char *delim = " \t\n";
-	char **tempArgs;
+	char *buffer = 0, *delim = " \t\n", **args;
 
 	printf("#cisfun$ ");
 	while ((getline(&buffer, &len, stdin)) != -1)
 	{
-		/* take first token */
-		split(&tempArgs, buffer, delim);
-		printf("%s", tempArgs[0]);
+		/* delimit buffer by delimiters */
+		args = split(buffer, delim);
 		/* create a child process */
-		if (tempArgs && tempArgs[0] && fork() == 0)
+		if (args && fork() == 0)
 		{
 			/* exec shell command, return error message if it fails */
-			if (execve(tempArgs[0], tempArgs, NULL) == -1)
+			if (execve(args[0], args, NULL) == -1)
 				perror("Error:");
 			break;
 		}
@@ -41,28 +29,11 @@ int main()
 			printf("#cisfun$ ");
 		}
 	}
-	return (0);
-}
 
-int split(char ***dest, char *buffer, char *delim)
-{
-	char **list;
-	char *token = 0;
-	int i = -1;
+	/* WE SHOULD HANDLE end-of-file (Ctrl+d, etc.) AND FREE ALLOCATED MEMORY
+	 * BEFORE ENDING THE PROGRAM.
+	 * - **arg
+	 */
 
-	token = strtok(buffer, delim);
-	while (token)
-	{
-		i++;
-		list = realloc(list, sizeof(char) * i);
-		if (!dest)
-			return (-1);
-		list[i] = malloc(sizeof(char) * strlen(token));
-		if (list[i])
-			return(-1);
-		list[i] = token;
-		token = strtok(NULL, delim);
-	}
-	**dest = *list;
 	return (0);
 }
