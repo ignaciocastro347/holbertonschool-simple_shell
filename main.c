@@ -1,4 +1,6 @@
 #include "shell.h"
+#include "printf/_printf.h"
+
 /**
  * main - shell
  * Return: Always 0.
@@ -12,7 +14,7 @@ int main()
 
 	while (getline_status != -1)
 	{
-		printf("#cisfun$ ");
+		_printf("#cisfun$ ");
 		getline_status = getline(&buffer, &len, stdin);
 		buffer = strtok(buffer, "\n");
 		if (!buffer)

@@ -8,7 +8,7 @@
 char **split(char *buffer, char *delim)
 {
 	char **list = NULL;
-	char *token = 0;
+char *token = 0;
 	char *dbuffer;
 	int i = -1;
 

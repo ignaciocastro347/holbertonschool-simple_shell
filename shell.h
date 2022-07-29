@@ -9,6 +9,7 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 
+int _putchar(char);
 char **split(char *, char *);
 
 #endif
