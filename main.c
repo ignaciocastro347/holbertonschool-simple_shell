@@ -1,5 +1,5 @@
 #include "shell.h"
-#include "printf/_printf.h"
+#include "_printf.h"
 
 /**
  * main - shell
