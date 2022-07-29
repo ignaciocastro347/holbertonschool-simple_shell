@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <stdarg.h>
 #include <stdlib.h>
+#include <unistd.h>
 int _putchar(char);
 int _putchar_s(char *s);
 int _printf(const char *format, ...);
@@ -18,7 +19,7 @@ typedef struct print_function
 	int (*f)(va_list);
 } pfunc_t;
 
-/*############### MAP FUNCTION #################*/
+/* ############## MAP FUNCTION ################ */
 int (*get_print_function(char a))(va_list);
 
 /* ################ USE CASES ################# */
@@ -36,34 +37,3 @@ int print_upper_hex(va_list);
 int recursive_number(unsigned int, unsigned int, char *);
 unsigned int make_abs(int);
 #endif
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
