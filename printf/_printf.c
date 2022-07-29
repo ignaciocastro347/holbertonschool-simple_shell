@@ -1,6 +1,4 @@
 #include "_printf.h"
-#include <stdarg.h>
-
 /**
  * _printf - main function of printf
  * @format: string value to print and specify type of next args
