@@ -11,7 +11,6 @@ int main()
 	size_t len = 0;
 	char *buffer = 0, *delim = " \t\n", **args;
 	ssize_t getline_status = 1;
-	int i = 0;
 
 	while (1)
 	{
@@ -21,13 +20,12 @@ int main()
 			break;
 		buffer = strtok(buffer, "\n");
 		if (!buffer)
+		{
+			free(buffer);
 			continue;
-		printf("%s\n", buffer);
+		}
 		/* delimit buffer by delimiters */
 		args = split(buffer, delim);
-
-		while (args && args[i])
-			printf("%s\n", args[i++]);
 
 		/* create a child process */
 		if (args && fork() == 0)
@@ -43,7 +41,6 @@ int main()
 			wait(&status);
 			free(buffer);
 		}
-		free_string_list(args);
 	}
 
 	/* WE SHOULD HANDLE end-of-file (Ctrl+d, etc.) AND FREE ALLOCATED MEMORY

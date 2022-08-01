@@ -29,8 +29,6 @@ char **split(char *buffer, char *delim)
 		list[i] = _strdup(token);
 		token = strtok(NULL, delim);		
 		i++;
-		free(token);
-		printf("anda\n");
 	}
 	list[i] = NULL;
 	free(dbuffer);
@@ -38,7 +36,7 @@ char **split(char *buffer, char *delim)
 }
 
 int count_tokens(char *str, char *delims)
-
+{
 	int counter = 0, i = 0, j = 0;
 	int prev_is_delim = 0;
 
