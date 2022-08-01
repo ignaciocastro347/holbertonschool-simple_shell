@@ -7,6 +7,7 @@
 int free_string_list(char **list)
 {
 	int i = 0;
+
 	while (list[i])
 		free(list[i++]);
 	free(list);

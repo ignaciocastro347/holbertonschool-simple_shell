@@ -33,7 +33,9 @@ int main()
 		{
 			/* wait until child process ends to continue */
 			wait(&status);
+			free(buffer);
 		}
+		free_string_list(args);
 	}
 
 	/* WE SHOULD HANDLE end-of-file (Ctrl+d, etc.) AND FREE ALLOCATED MEMORY
@@ -41,6 +43,7 @@ int main()
 	 * - **arg
 	 * - *buffer
 	 */
-
+	free_string_list(args);
+	free(buffer);
 	return (0);
 }
