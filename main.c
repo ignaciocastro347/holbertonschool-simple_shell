@@ -11,16 +11,24 @@ int main()
 	size_t len = 0;
 	char *buffer = 0, *delim = " \t\n", **args;
 	ssize_t getline_status = 1;
+	int i = 0;
 
-	while (getline_status != -1)
+	while (1)
 	{
 		_printf("#cisfun$ ");
 		getline_status = getline(&buffer, &len, stdin);
+		if (getline_status == -1)
+			break;
 		buffer = strtok(buffer, "\n");
 		if (!buffer)
 			continue;
+		printf("%s\n", buffer);
 		/* delimit buffer by delimiters */
 		args = split(buffer, delim);
+
+		while (args && args[i])
+			printf("%s\n", args[i++]);
+
 		/* create a child process */
 		if (args && fork() == 0)
 		{

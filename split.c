@@ -18,7 +18,8 @@ char **split(char *buffer, char *delim)
 	if (!buffer)
 		return (NULL);
 	amount_tokens = count_tokens(buffer, delim);
-	list = calloc(amount_tokens + 1, sizeof(char *));
+	list = malloc(sizeof(char *) * (amount_tokens + 1));
+
 	if (!list)
 		return (NULL);
 	dbuffer = _strdup(buffer);
@@ -26,9 +27,10 @@ char **split(char *buffer, char *delim)
 	while (token)
 	{
 		list[i] = _strdup(token);
-		token = strtok(NULL, delim);
+		token = strtok(NULL, delim);		
 		i++;
 		free(token);
+		printf("anda\n");
 	}
 	list[i] = NULL;
 	free(dbuffer);
@@ -36,7 +38,7 @@ char **split(char *buffer, char *delim)
 }
 
 int count_tokens(char *str, char *delims)
-{
+
 	int counter = 0, i = 0, j = 0;
 	int prev_is_delim = 0;
 
