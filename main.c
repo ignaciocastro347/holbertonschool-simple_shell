@@ -7,7 +7,7 @@
  */
 int main()
 {
-	int status;
+	int status = 0;
 	size_t len = 0;
 	char *buffer = 0, *delim = " \t\n", **args;
 	ssize_t getline_status = 1;
@@ -17,7 +17,10 @@ int main()
 		_printf("#cisfun$ ");
 		getline_status = getline(&buffer, &len, stdin);
 		if (getline_status == -1)
+		{
+			free(buffer); /* POR QUE FUNCAAAAAAAA!!!!!!???????*/
 			break;
+		}
 		buffer = strtok(buffer, "\n");
 		if (!buffer)
 		{
@@ -39,7 +42,6 @@ int main()
 		{
 			/* wait until child process ends to continue */
 			wait(&status);
-			free(buffer);
 		}
 	}
 
@@ -49,6 +51,6 @@ int main()
 	 * - *buffer
 	 */
 	free_string_list(args);
-	free(buffer);
+	free(buffer); /* NO ES LO MISMO QUE LO DE ARRIBA LOCOOOOOOOOOO!!!????? */
 	return (0);
 }
