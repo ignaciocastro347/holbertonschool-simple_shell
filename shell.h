@@ -13,5 +13,5 @@ int _putchar(char);
 char **split(char *, char *);
 int count_tokens(char *, char*);
 int free_string_list(char **);
-
+char *_which(char *str);
 #endif
