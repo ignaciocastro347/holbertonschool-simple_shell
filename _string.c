@@ -36,8 +36,8 @@ int _strcmp(char *s1, char *s2)
 */
 char *_strdup(char *str)
 {
-	int size, count;
-	char *copy;
+	int size = 0, count = 0;
+	char *copy = NULL;
 
 	if (!str)
 		return (NULL);
@@ -47,6 +47,7 @@ char *_strdup(char *str)
 		return (NULL);
 	for (count = 0; count < size; count++)
 		copy[count] = str[count];
+	copy[count] = '\0';
 	return (copy);
 }
 
@@ -60,8 +61,8 @@ char *_strcat(char *dest, char *src)
 {
 	size_t dest_len = _strlen(dest);
 	size_t src_len = _strlen(src);
-	size_t i, all_len;
-	char *tmp;
+	size_t i = 0, all_len = 0;
+	char *tmp = NULL;
 
 	all_len = dest_len + src_len + 1;
 	tmp = malloc(all_len * sizeof(char));

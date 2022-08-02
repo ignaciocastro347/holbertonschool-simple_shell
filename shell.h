@@ -3,13 +3,15 @@
 #define  _GNU_SOURCE
 
 #include <stdio.h>
-#include <string.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/wait.h>
+#include <string.h>
 
 int _putchar(char);
 char **split(char *, char *);
+int count_tokens(char *, char*);
+int free_string_list(char **);
 
 #endif
