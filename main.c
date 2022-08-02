@@ -29,7 +29,8 @@ int main()
 			continue;
 		}
 		args = split(buffer, delim);
-		if (args && fork() == 0)
+
+		if (args && args[0] && fork() == 0)
 		{
 			if (execve(args[0], args, environ) == -1)	
 				perror("Error:");
