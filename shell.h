@@ -2,6 +2,7 @@
 #define SIMPLE_SHELL
 #define  _GNU_SOURCE
 
+extern char **environ;
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>

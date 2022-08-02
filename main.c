@@ -30,7 +30,7 @@ int main()
 		args = split(buffer, delim);
 		if (args && fork() == 0)
 		{
-			if (execve(args[0], args, NULL) == -1)	
+			if (execve(args[0], args, environ) == -1)	
 				perror("Error:");
 			free_string_list(args);
 			free(buffer); 
