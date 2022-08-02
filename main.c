@@ -1,20 +1,21 @@
 #include "shell.h"
 #include "_printf.h"
 
+void print_new_line(int *);
 /**
  * main - shell
  * Return: Always 0.
  */
 int main()
 {
-	int status = 0;
+	int status = 0, int_mode = 0;
 	size_t len = 0;
 	char *buffer = 0, *delim = " \t\n", **args;
 	ssize_t getline_status = 1;
 
 	while (1)
 	{
-		_printf("#cisfun$ ");
+		print_new_line(&int_mode);
 		getline_status = getline(&buffer, &len, stdin);
 		if (getline_status == -1)
 		{
@@ -41,4 +42,13 @@ int main()
 		free_string_list(args);
 	}
 	return (0);
+}
+void print_new_line(int *mode)
+{
+	if (*mode || isatty(STDIN_FILENO))
+	{
+		_printf("#cisfun$ ");
+		if (!mode)
+			*mode = 1;
+	}
 }
