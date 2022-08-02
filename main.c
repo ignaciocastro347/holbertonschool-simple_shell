@@ -18,8 +18,8 @@ int main()
 		getline_status = getline(&buffer, &len, stdin);
 		if (getline_status == -1)
 		{
-			free(buffer); /* POR QUE FUNCAAAAAAAA!!!!!!???????*/
-			break;
+			free(buffer);
+			return (0);
 		}
 		buffer = strtok(buffer, "\n");
 		if (!buffer)
@@ -27,30 +27,18 @@ int main()
 			free(buffer);
 			continue;
 		}
-		/* delimit buffer by delimiters */
 		args = split(buffer, delim);
-
-		/* create a child process */
 		if (args && fork() == 0)
 		{
-			/* exec shell command, return error message if it fails */
-			if (execve(args[0], args, NULL) == -1)
+			if (execve(args[0], args, NULL) == -1)	
 				perror("Error:");
+			free_string_list(args);
+			free(buffer); 
 			break;
 		}
 		else
-		{
-			/* wait until child process ends to continue */
 			wait(&status);
-		}
+		free_string_list(args);
 	}
-
-	/* WE SHOULD HANDLE end-of-file (Ctrl+d, etc.) AND FREE ALLOCATED MEMORY
-	 * BEFORE ENDING THE PROGRAM.
-	 * - **arg
-	 * - *buffer
-	 */
-	free_string_list(args);
-	free(buffer); /* NO ES LO MISMO QUE LO DE ARRIBA LOCOOOOOOOOOO!!!????? */
 	return (0);
 }
