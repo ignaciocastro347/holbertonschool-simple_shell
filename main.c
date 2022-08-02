@@ -1,14 +1,13 @@
 #include "shell.h"
 #include "_printf.h"
 
-void print_new_line(int *);
 /**
  * main - shell
  * Return: Always 0.
  */
 int main()
 {
-	int status = 0, int_mode = 0;
+	int int_mode = 0;
 	size_t len = 0;
 	char *buffer = 0, *delim = " \t\n", **args;
 	ssize_t getline_status = 1;
@@ -30,26 +29,50 @@ int main()
 		}
 		args = split(buffer, delim);
 
-		if (args && args[0] && fork() == 0)
-		{
-			if (execve(args[0], args, environ) == -1)	
-				perror("Error:");
-			free_string_list(args);
-			free(buffer); 
-			break;
-		}
-		else
-			wait(&status);
+		execute_program(buffer, args);
 		free_string_list(args);
 	}
 	return (0);
 }
-void print_new_line(int *mode)
+
+void execute_program(char *buffer, char **args)
 {
-	if (*mode || isatty(STDIN_FILENO))
+	int status;
+	char *tmp = NULL;
+
+	if (args && args[0])
 	{
-		_printf("#cisfun$ ");
-		if (!mode)
-			*mode = 1;
+		/* Check if program name already starts with '/' */
+		if (args[0][0] == '/')
+		{
+			if (access(args[0], F_OK) != 0)
+			{
+				_printf("This program does not exist!!!");
+				return;
+			}
+		}
+		else
+		{
+			/* Get full path of program and set it into args[0] */
+			tmp = args[0];
+			args[0] = _which(_get_env("PATH"), args[0]);
+			if (!args[0])
+			{
+				_printf("This program does not exist!!!");
+				return;
+			}
+			free(tmp);
+		}
+
+		/* fork process and execute program */
+		if (fork() == 0)
+		{
+			if (execve(args[0], args, environ) == -1)
+				perror("Error:");
+			free_string_list(args);
+			free(buffer);
+		}
+		else
+			wait(&status);
 	}
 }
