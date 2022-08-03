@@ -29,7 +29,13 @@ int main()
 			continue;
 		}
 		args = split(buffer, delim);
-
+		
+		if (_strcmp(EXITCMD, args[0]) == 0)
+		{
+			free(buffer);
+			free_string_list(args);
+			return (0);
+		}
 		if (args && args[0] && fork() == 0)
 		{
 			if (execve(args[0], args, environ) == -1)	
