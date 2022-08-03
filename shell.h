@@ -10,11 +10,12 @@ extern char **environ;
 #include <sys/wait.h>
 #include <string.h>
 
-extern char **environ;
 int _putchar(char);
 char **split(char *, char *);
 int count_tokens(char *, char*);
 int free_string_list(char **);
-char *get_env(char *str);
+char *_get_env(char *str);
 char *_which(char *path, char *cmd);
+void print_new_line(int *);
+void execute_program(char *, char **);
 #endif
