@@ -5,12 +5,14 @@
 char *_which(char *path, char *cmd)
 {
 	int i = 0;
-	char *full_path = NULL;
+	char *full_path;
 	char **path_list = NULL;
 
-	if (!full_path || !path || !cmd)
+	full_path = malloc(sizeof(char) * 1024);
+	if (!full_path ||!path || !cmd)
 		return (NULL);
 	path_list = split(path, ":");
+
 	for (i = 0; path_list && path_list[i]; i++)
 	{
 		full_path = _strcat(full_path, path_list[i]);
@@ -18,22 +20,24 @@ char *_which(char *path, char *cmd)
 		full_path = _strcat (full_path, cmd);
 		if (access(full_path, F_OK) == 0)
 		{
-			free(path_list);
+			free_string_list(path_list); /** Liberamos*/
 			return (full_path);
 		}
-		free(full_path);
+		free(full_path); /** No precisamos liberar?*/   /** Deberiamos setearlo a 0 de nuevo antes de loopear de nuevo*/
 	}
-	free(path_list);
+	free_string_list(path_list); /*free string*/
 	return (NULL);
 }
 char *_get_env (char *str)
 {
 	int i = 0;
 	char *key = NULL;
+	char *env_dup;
 
 	for(i = 0; environ[i]; i++)
 	{
-		key = strtok(environ[i], "=");
+		env_dup = _strdup(environ[i]);
+		key = strtok(env_dup, "=");
 		if(_strcmp(key, str) == 0)
 			return(strtok(NULL, "="));
 	}
