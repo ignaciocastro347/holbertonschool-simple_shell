@@ -11,7 +11,8 @@ int main()
 	size_t len = 0;
 	char *buffer = 0, *delim = " \t\n", **args = 0, *command = NULL;
 	ssize_t getline_status = 1;
-
+	int found = 0;
+	int *not_found = &found;
 	while (1)
 	{
 		print_new_line(&int_mode);
@@ -33,12 +34,12 @@ int main()
 		free(buffer);
 		buffer = NULL;
 
-		execute_program(args);
+		execute_program(args, not_found);
 		free_string_list(args);
 	}
-	return (0);
+	return (found);
 }
-void execute_program(char **args)
+void execute_program(char **args, int *not_found)
 {
 	int status;
 	char *tmp = NULL, *paths = NULL;
@@ -51,7 +52,7 @@ void execute_program(char **args)
 		if (access(args[0], F_OK) != 0)
 		{
 			print_not_found(args[0]);
-			exit(127);
+			return;
 		}
 	}
 	else
@@ -69,6 +70,7 @@ void execute_program(char **args)
 		{
 			print_not_found(tmp);
 			free(tmp);
+			*not_found = 127;
 			return;
 		}
 		free(tmp);
