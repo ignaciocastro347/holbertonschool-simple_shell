@@ -1,5 +1,6 @@
 #include "shell.h"
 #include "_printf.h"
+#include "_string.h"
 /**
  * main - shell
  * Return: Always 0.
@@ -41,14 +42,13 @@ void execute_program(char *buffer, char **args)
 	if (!args || !args[0])
 		return;
 
-	if (args[0][0] == '/')
+	if (args[0][0] == '/' || args[0][0] == '.')
 	{
 		if (access(args[0], F_OK) != 0)
 		{
-			write(STDERR_FILENO, "./hsh", 1);
-			write(STDERR_FILENO, ": 1: ", 1);
-			write(STDERR_FILENO, args[0], 1);
-			write(STDERR_FILENO, ": not found", 1);
+			write(STDERR_FILENO, "./hsh: 1: ", 10);
+			write(STDERR_FILENO, args[0], _strlen(args[0]));
+			write(STDERR_FILENO, ": not found\n", 12);
 			return;
 		}
 	}
@@ -58,10 +58,10 @@ void execute_program(char *buffer, char **args)
 		args[0] = _which(_get_env("PATH"), args[0]);
 		if (!args[0])
 		{
-			write(STDERR_FILENO, "./hsh", 1);
- 			write(STDERR_FILENO, ": 1: ", 1);
-			write(STDERR_FILENO, args[0], 1);
- 			write(STDERR_FILENO, ": not found", 1);
+			write(STDERR_FILENO, "./hsh: 1: ", 10);
+			write(STDERR_FILENO, tmp, _strlen(tmp));
+ 			write(STDERR_FILENO, ": not found\n", 12);
+			free(tmp);
 			return;
 		}
 		free(tmp);
