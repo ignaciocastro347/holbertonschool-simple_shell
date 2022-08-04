@@ -11,8 +11,6 @@ int main()
 	size_t len = 0;
 	char *buffer = 0, *delim = " \t\n", **args = 0, *command = NULL;
 	ssize_t getline_status = 1;
-	int found = 0;
-	int *not_found = &found;
 	while (1)
 	{
 		print_new_line(&int_mode);
@@ -34,10 +32,10 @@ int main()
 		free(buffer);
 		buffer = NULL;
 
-		execute_program(args, not_found);
+		execute_program(args);
 		free_string_list(args);
 	}
-	return (found);
+	return (0);
 }
 void execute_program(char **args, int *not_found)
 {
@@ -70,7 +68,6 @@ void execute_program(char **args, int *not_found)
 		{
 			print_not_found(tmp);
 			free(tmp);
-			*not_found = 127;
 			return;
 		}
 		free(tmp);
