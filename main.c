@@ -57,11 +57,11 @@ void execute_program(char **args)
 	else
 	{
 		tmp = args[0];
-		paths = _get_env("PATH");
+		paths = _get_env("PATHasndbaksjdb");
 		if (!paths)
 		{
 			print_not_found(tmp);
-			free(tmp);
+			free_string_list(args);
 			exit(127);
 		}
 		args[0] = _which(paths, args[0]);
