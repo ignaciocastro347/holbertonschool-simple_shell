@@ -51,7 +51,7 @@ void execute_program(char **args)
 		if (access(args[0], F_OK) != 0)
 		{
 			print_not_found(args[0]);
-			return;
+			exit(127);
 		}
 	}
 	else
