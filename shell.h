@@ -17,5 +17,5 @@ int free_string_list(char **);
 char *_get_env(char *str);
 char *_which(char *path, char *cmd);
 void print_new_line(int *);
-void execute_program(char *, char **);
+void execute_program(char **);
 #endif

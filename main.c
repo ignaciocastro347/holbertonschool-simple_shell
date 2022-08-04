@@ -9,7 +9,7 @@ int main()
 {
 	int int_mode = 0;
 	size_t len = 0;
-	char *buffer = 0, *delim = " \t\n", **args = 0;
+	char *buffer = 0, *delim = " \t\n", **args = 0, *command = NULL;
 	ssize_t getline_status = 1;
 
 	while (1)
@@ -21,20 +21,24 @@ int main()
 			free(buffer);
 			return (0);
 		}
-		buffer = strtok(buffer, "\n");
-		if (!buffer)
+		command = strtok(buffer, "\n");
+		if (!command)
+			continue;
+		/*if (!buffer[0])
 		{
 			free(buffer);
 			continue;
-		}
-		args = split(buffer, delim);
+		}*/
+		args = split(command, delim);
+		free(buffer);
+		buffer = NULL;
 
-		execute_program(buffer, args);
+		execute_program(args);
 		free_string_list(args);
 	}
 	return (0);
 }
-void execute_program(char *buffer, char **args)
+void execute_program(char **args)
 {
 	int status;
 	char *tmp = NULL;
@@ -71,7 +75,6 @@ void execute_program(char *buffer, char **args)
 		if (execve(args[0], args, environ) == -1)
 			perror("Error:");
 		free_string_list(args);
-		free(buffer);
 	}
 	else
 		wait(&status);
