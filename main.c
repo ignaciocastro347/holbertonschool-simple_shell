@@ -37,7 +37,7 @@ int main()
 	}
 	return (0);
 }
-void execute_program(char **args, int *not_found)
+void execute_program(char **args)
 {
 	int status;
 	char *tmp = NULL, *paths = NULL;
