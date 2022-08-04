@@ -50,9 +50,7 @@ void execute_program(char **args)
 	{
 		if (access(args[0], F_OK) != 0)
 		{
-			write(STDERR_FILENO, "./hsh: 1: ", 10);
-			write(STDERR_FILENO, args[0], _strlen(args[0]));
-			write(STDERR_FILENO, ": not found\n", 12);
+			print_not_found(args[0]);
 			return;
 		}
 	}
@@ -62,15 +60,14 @@ void execute_program(char **args)
 		paths = _get_env("PATH");
 		if (!paths)
 		{
+			print_not_found(tmp);
 			free(tmp);
 			exit(127);
 		}
 		args[0] = _which(paths, args[0]);
 		if (!args[0])
 		{
-			write(STDERR_FILENO, "./hsh: 1: ", 10);
-			write(STDERR_FILENO, tmp, _strlen(tmp));
- 			write(STDERR_FILENO, ": not found\n", 12);
+			print_not_found(tmp);
 			free(tmp);
 			return;
 		}
@@ -84,4 +81,11 @@ void execute_program(char **args)
 	}
 	else
 		wait(&status);
+}
+
+void print_not_found(char *cmd)
+{
+	write(STDERR_FILENO, "./hsh: 1: ", 10);
+	write(STDERR_FILENO, cmd, _strlen(cmd));
+	write(STDERR_FILENO, ": not found\n", 12);
 }
