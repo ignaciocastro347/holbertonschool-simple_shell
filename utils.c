@@ -8,9 +8,6 @@ char *_which(char *path, char *cmd)
 	char *full_path = NULL;
 	char **path_list = NULL;
 
-	_printf("path: %s.\n", path);
-	_printf("cmd: %s.\n", cmd);
-	/**full_path = calloc(1024, sizeof(char)); */
 	if (!path || !cmd)
 		return (NULL);
 	path_list = split(path, ":");
@@ -26,18 +23,18 @@ char *_which(char *path, char *cmd)
 		full_path = _strcat(full_path, cmd);
 		if (!full_path)
 			return (NULL);
-		_printf("fullpath: %s.\n", full_path);
 		if (access(full_path, F_OK) == 0)
 		{
-			free_string_list(path_list); /** Liberamos*/
+			free_string_list(path_list);
 			return (full_path);
 		}
-		free(full_path); /** No precisamos liberar?*/   /** Deberiamos setearlo a 0 de nuevo antes de loopear de nuevo*/
+		free(full_path);
 		full_path = NULL;
 	}
-	free_string_list(path_list); /*free string*/
+	free_string_list(path_list);
 	return (NULL);
 }
+
 char *_get_env (char *str)
 {
 	int i = 0;
@@ -58,6 +55,7 @@ char *_get_env (char *str)
 	}
 	return (NULL);
 }
+
 void print_new_line(int *mode)
 {
 	if (*mode || isatty(STDIN_FILENO))
