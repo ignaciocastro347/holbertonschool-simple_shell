@@ -14,7 +14,7 @@ char *_which(char *path, char *cmd)
 	if (!path || !cmd)
 		return (NULL);
 	path_list = split(path, ":");
-
+	free(path);
 	for (i = 0; path_list && path_list[i]; i++)
 	{
 		full_path = _strcat(full_path, path_list[i]);
@@ -54,8 +54,8 @@ char *_get_env (char *str)
 			free(env_dup);
 			return(value);
 		}
+		free(env_dup);
 	}
-	free(env_dup);
 	return (NULL);
 }
 void print_new_line(int *mode)
