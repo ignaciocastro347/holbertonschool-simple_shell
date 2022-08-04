@@ -17,6 +17,6 @@ int free_string_list(char **);
 char *_get_env(char *str);
 char *_which(char *path, char *cmd);
 void print_new_line(int *);
-void execute_program(char **);
-void print_not_found(char *);
+int execute_program(char **);
+int print_not_found(char *);
 #endif

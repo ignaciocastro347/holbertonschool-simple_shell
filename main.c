@@ -7,10 +7,11 @@
  */
 int main()
 {
-	int int_mode = 0;
+	int int_mode = 0, status = 0;
 	size_t len = 0;
 	char *buffer = 0, *delim = " \t\n", **args = 0, *command = NULL;
 	ssize_t getline_status = 1;
+
 	while (1)
 	{
 		print_new_line(&int_mode);
@@ -23,34 +24,29 @@ int main()
 		command = strtok(buffer, "\n");
 		if (!command)
 			continue;
-		/*if (!buffer[0])
-		{
-			free(buffer);
-			continue;
-		}*/
 		args = split(command, delim);
 		free(buffer);
 		buffer = NULL;
 
-		execute_program(args);
+		status = execute_program(args);
 		free_string_list(args);
+		if (status != 0)
+			return(status);
 	}
 	return (0);
 }
-void execute_program(char **args)
+int execute_program(char **args)
 {
-	int status;
+	int status = 0, wait_status;
 	char *tmp = NULL, *paths = NULL;
-
 	if (!args || !args[0])
-		return;
+		return (status);
 
 	if (args[0][0] == '/' || args[0][0] == '.')
 	{
 		if (access(args[0], F_OK) != 0)
 		{
-			print_not_found(args[0]);
-			return;
+			return (print_not_found(args[0]));
 		}
 	}
 	else
@@ -59,16 +55,22 @@ void execute_program(char **args)
 		paths = _get_env("PATH");
 		if (!paths)
 		{
-			print_not_found(tmp);
+			if (access(args[0], F_OK) != 0)
+			{
+				status = print_not_found(tmp);
+			}
 			free_string_list(args);
-			exit(127);
+			return(status);
 		}
 		args[0] = _which(paths, args[0]);
 		if (!args[0])
 		{
-			print_not_found(tmp);
+			if (access(args[0], F_OK) != 0)
+			{
+				status = print_not_found(tmp);
+			}
 			free(tmp);
-			return;
+			return(status);
 		}
 		free(tmp);
 	}
@@ -79,12 +81,14 @@ void execute_program(char **args)
 		free_string_list(args);
 	}
 	else
-		wait(&status);
+		wait(&wait_status);
+	return (0);
 }
 
-void print_not_found(char *cmd)
+int print_not_found(char *cmd)
 {
 	write(STDERR_FILENO, "./hsh: 1: ", 10);
 	write(STDERR_FILENO, cmd, _strlen(cmd));
 	write(STDERR_FILENO, ": not found\n", 12);
+	return (127);
 }
