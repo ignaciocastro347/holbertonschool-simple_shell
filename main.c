@@ -9,7 +9,7 @@ int main()
 {
 	int int_mode = 0;
 	size_t len = 0;
-	char *buffer = 0, *delim = " \t\n", **args;
+	char *buffer = 0, *delim = " \t\n", **args = 0;
 	ssize_t getline_status = 1;
 
 	while (1)
@@ -34,7 +34,6 @@ int main()
 	}
 	return (0);
 }
-
 void execute_program(char *buffer, char **args)
 {
 	int status;
@@ -58,7 +57,7 @@ void execute_program(char *buffer, char **args)
 			args[0] = _which(_get_env("PATH"), args[0]);
 			if (!args[0])
 			{
-				_printf("This program does not exist!!!");
+				_printf("Which no match\n");
 				return;
 			}
 			free(tmp);

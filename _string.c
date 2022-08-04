@@ -59,19 +59,26 @@ char *_strdup(char *str)
 */
 char *_strcat(char *dest, char *src)
 {
-	size_t dest_len = _strlen(dest);
-	size_t src_len = _strlen(src);
+	size_t dest_len = 0;
+	size_t src_len = 0;
 	size_t i = 0, all_len = 0;
-	char *tmp = NULL;
+	/**char *tmp = NULL;*/
+
+	if (dest)
+		dest_len = _strlen(dest);
+	if (src)
+		src_len = _strlen(src);
 
 	all_len = dest_len + src_len + 1;
-	tmp = malloc(all_len * sizeof(char));
-	
-	for (i = 0; i < dest_len; i++)
-		tmp[i] = dest[i];
+	dest = realloc(dest, all_len);
+	if (!dest)
+		return (NULL);
+	/**for (i = 0; i < dest_len; i++)
+		tmp[i] = dest[i];*/
 	for (i = 0 ; src[i] != '\0' ; i++)
-		tmp[dest_len + i] = src[i];
-	tmp[all_len -1] = '\0';
-	return (tmp);
+		dest[dest_len + i] = src[i];
+	dest[all_len -1] = '\0';
+	
+	return (dest);
 	/* we need to free tmp outside this function*/
 }
