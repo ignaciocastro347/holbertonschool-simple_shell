@@ -41,7 +41,7 @@ int main()
 void execute_program(char **args)
 {
 	int status;
-	char *tmp = NULL;
+	char *tmp = NULL, *paths = NULL;
 
 	if (!args || !args[0])
 		return;
@@ -59,7 +59,13 @@ void execute_program(char **args)
 	else
 	{
 		tmp = args[0];
-		args[0] = _which(_get_env("PATH"), args[0]);
+		paths = _get_env("PATH");
+		if (!paths)
+		{
+			free(tmp);
+			exit(127);
+		}
+		args[0] = _which(paths, args[0]);
 		if (!args[0])
 		{
 			write(STDERR_FILENO, "./hsh: 1: ", 10);
