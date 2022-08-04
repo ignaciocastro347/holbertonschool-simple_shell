@@ -24,11 +24,6 @@ int main()
 		command = strtok(buffer, "\n");
 		if (!command)
 			continue;
-		/*if (!buffer[0])
-		{
-			free(buffer);
-			continue;
-		}*/
 		args = split(command, delim);
 		free(buffer);
 		buffer = NULL;
@@ -71,7 +66,7 @@ void execute_program(char **args)
 			print_not_found(tmp);
 			free_string_list(args);
 			free(tmp);
-			return;
+			exit(127);
 		}
 		free(tmp);
 	}
