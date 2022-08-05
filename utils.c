@@ -1,7 +1,12 @@
 #include "_string.h"
 #include "shell.h"
 #include "_printf.h"
-
+/**
+ * _which - Concatenates fullpath of program
+ * @path: Path of program
+ * @cmd: Command
+ * Return: return fullpath otherwise return null
+*/
 char *_which(char *path, char *cmd)
 {
 	int i = 0;
@@ -34,28 +39,36 @@ char *_which(char *path, char *cmd)
 	free_string_list(path_list);
 	return (NULL);
 }
-
-char *_get_env (char *str)
+/**
+ * _get_env - Get the path of environ
+ * @str: Name of var to find in environ
+ * Return: value of str
+*/
+char *_get_env(char *str)
 {
 	int i = 0;
 	char *key = NULL, *value = NULL;
 	char *env_dup = NULL;
 
-	for(i = 0; environ[i]; i++)
+	for (i = 0; environ[i]; i++)
 	{
 		env_dup = _strdup(environ[i]);
 		key = strtok(env_dup, "=");
-		if(_strcmp(key, str) == 0)
+		if (_strcmp(key, str) == 0)
 		{
 			value = _strdup(strtok(NULL, "="));
 			free(env_dup);
-			return(value);
+			return (value);
 		}
 		free(env_dup);
 	}
 	return (NULL);
 }
-
+/**
+ * print_new_line - Print #cisfun $
+ * @mode: check interactive or non interactive mode
+ * Return: void function
+*/
 void print_new_line(int *mode)
 {
 	if (*mode || isatty(STDIN_FILENO))
