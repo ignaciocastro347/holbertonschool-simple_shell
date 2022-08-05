@@ -5,7 +5,7 @@
  * main - shell
  * Return: Always 0.
  */
-int main()
+int main(void)
 {
 	int int_mode = 0;
 	size_t len = 0;
@@ -28,18 +28,19 @@ int main()
 		free(buffer);
 		buffer = NULL;
 
+		prepare_program(args);
 		execute_program(args);
 		free_string_list(args);
 	}
 	return (0);
 }
-void execute_program(char **args)
+/**
+ * prepare_program -  look for full path if needed
+ * @args: array of arguments
+ */
+void prepare_program(char **args)
 {
-	int status;
 	char *tmp = NULL, *paths = NULL;
-
-	if (!args || !args[0])
-		return;
 
 	if (args[0][0] == '/' || args[0][0] == '.')
 	{
@@ -49,27 +50,34 @@ void execute_program(char **args)
 			free_string_list(args);
 			exit(127);
 		}
+		return;
 	}
-	else
+	tmp = args[0];
+	paths = _get_env("PATH");
+	if (!paths)
 	{
-		tmp = args[0];
-		paths = _get_env("PATH");
-		if (!paths)
-		{
-			print_not_found(tmp);
-			free_string_list(args);
-			exit(127);
-		}
-		args[0] = _which(paths, args[0]);
-		if (!args[0])
-		{
-			print_not_found(tmp);
-			free_string_list(args);
-			free(tmp);
-			exit(127);
-		}
-		free(tmp);
+		print_not_found(tmp);
+		free_string_list(args);
+		exit(127);
 	}
+	args[0] = _which(paths, args[0]);
+	if (!args[0])
+	{
+		print_not_found(tmp);
+		free_string_list(args);
+		free(tmp);
+		exit(127);
+	}
+	free(tmp);
+}
+/**
+ * execute_program - execute a command in a child process
+ * @args: list of arguments
+ */
+void execute_program(char **args)
+{
+	int status;
+
 	if (fork() == 0)
 	{
 		if (execve(args[0], args, environ) == -1)
@@ -79,7 +87,10 @@ void execute_program(char **args)
 	else
 		wait(&status);
 }
-
+/**
+ * print_not_found - write not found error message in standar error
+ * @cmd: command not found
+ */
 void print_not_found(char *cmd)
 {
 	write(STDERR_FILENO, "./hsh: 1: ", 10);
