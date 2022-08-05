@@ -1,12 +1,13 @@
 #include "_string.h"
 /**
- * strlen - returns lenght of a string
+ * _strlen - returns lenght of a string
  * @s: string
  * Return: return lenght
 */
 int _strlen(char *s)
 {
 	int count = 0;
+
 	while (*s != '\0')
 	{
 		count++;
@@ -74,8 +75,8 @@ char *_strcat(char *dest, char *src)
 		return (NULL);
 	for (i = 0 ; src[i] != '\0' ; i++)
 		dest[dest_len + i] = src[i];
-	dest[all_len -1] = '\0';
-	
+	dest[all_len - 1] = '\0';
+
 	return (dest);
 	/* Remember to free this return value */
 }
