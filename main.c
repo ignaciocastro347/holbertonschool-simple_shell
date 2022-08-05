@@ -29,7 +29,10 @@ int main(void)
 		buffer = NULL;
 		
 		if (!args || !args[0])
+		{
+			free_string_list(args);
 			continue;
+		}
 		prepare_program(args);
 		execute_program(args);
 		free_string_list(args);
