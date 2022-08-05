@@ -27,7 +27,7 @@ int main(void)
 		args = split(command, delim);
 		free(buffer);
 		buffer = NULL;
-		
+
 		if (!args || !args[0])
 		{
 			free_string_list(args);
@@ -46,7 +46,7 @@ int main(void)
 void prepare_program(char **args)
 {
 	char *tmp = NULL, *paths = NULL;
-	
+
 	if (args[0][0] == '/' || args[0][0] == '.')
 	{
 		if (access(args[0], F_OK) != 0)
