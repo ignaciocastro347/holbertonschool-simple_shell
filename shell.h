@@ -20,4 +20,5 @@ void print_new_line(int *);
 void execute_program(char **);
 void prepare_program(char **);
 void print_not_found(char *);
+int count_tokens(char *, char *);
 #endif

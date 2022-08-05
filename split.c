@@ -6,8 +6,6 @@
  * @delim: string with chars which ar delimiters
  * Return: array of string
  */
-int count_tokens(char *, char *);
-
 char **split(char *buffer, char *delim)
 {
 	char **list = NULL;
@@ -27,14 +25,19 @@ char **split(char *buffer, char *delim)
 	while (token)
 	{
 		list[i] = _strdup(token);
-		token = strtok(NULL, delim);		
+		token = strtok(NULL, delim);
 		i++;
 	}
 	list[i] = NULL;
 	free(dbuffer);
 	return (list);
 }
-
+/**
+ * count_tokens - Count tokens
+ * @str: String
+ * @delims: Delimiters
+ * Return: Number of tokens
+*/
 int count_tokens(char *str, char *delims)
 {
 	int counter = 0, i = 0, j = 0;
